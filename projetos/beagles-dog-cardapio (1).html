@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cardápio – Beagle's Dog</title>
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --yellow: #F5A800;
+    --yellow-light: #FFD147;
+    --black: #1A1A1A;
+    --dark: #111111;
+    --white: #FFFFFF;
+    --cream: #FFF8E7;
+    --red: #E63329;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--dark);
+    font-family: 'Nunito', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--yellow);
+    position: relative;
+    overflow: hidden;
+    padding: 40px 24px 32px;
+    text-align: center;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 18px,
+      rgba(0,0,0,0.04) 18px,
+      rgba(0,0,0,0.04) 20px
+    );
+  }
+
+  /* starburst decorations */
+  .hero::after {
+    content: '✦ ✦ ✦';
+    position: absolute;
+    top: 14px;
+    right: 20px;
+    font-size: 12px;
+    color: rgba(0,0,0,0.2);
+    letter-spacing: 6px;
+  }
+
+  .logo-wrap {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 10px;
+  }
+
+  .logo-circle {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    border: 4px solid var(--black);
+    background: var(--black);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.35);
+    overflow: hidden;
+  }
+
+  /* SVG beagle logo recreation */
+  .logo-svg {
+    width: 80px;
+    height: 80px;
+  }
+
+  .brand-name {
+    font-family: 'Bangers', cursive;
+    font-size: 52px;
+    letter-spacing: 2px;
+    color: var(--black);
+    line-height: 1;
+    margin-top: 8px;
+    text-shadow: 3px 3px 0 rgba(0,0,0,0.15);
+  }
+
+  .brand-tagline {
+    font-size: 13px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: var(--black);
+    opacity: 0.6;
+    margin-top: 4px;
+  }
+
+  .badge {
+    display: inline-block;
+    background: var(--black);
+    color: var(--yellow);
+    font-family: 'Bangers', cursive;
+    font-size: 16px;
+    letter-spacing: 2px;
+    padding: 6px 20px;
+    border-radius: 50px;
+    margin-top: 14px;
+  }
+
+  /* ── CONTACT BAR ── */
+  .contact-bar {
+    background: var(--black);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    padding: 12px 20px;
+    flex-wrap: wrap;
+  }
+
+  .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--white);
+    font-weight: 700;
+    font-size: 14px;
+    text-decoration: none;
+  }
+
+  .contact-item .icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    flex-shrink: 0;
+  }
+
+  .icon-phone { background: #25D366; }
+  .icon-insta { background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+
+  /* ── MENU BODY ── */
+  .menu-body {
+    padding: 28px 20px 60px;
+    max-width: 560px;
+    margin: 0 auto;
+  }
+
+  /* category label */
+  .cat-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 32px 0 16px;
+  }
+
+  .cat-label::before,
+  .cat-label::after {
+    content: '';
+    flex: 1;
+    height: 2px;
+    background: linear-gradient(to right, transparent, var(--yellow));
+  }
+  .cat-label::after {
+    background: linear-gradient(to left, transparent, var(--yellow));
+  }
+
+  .cat-label span {
+    font-family: 'Bangers', cursive;
+    font-size: 20px;
+    letter-spacing: 3px;
+    color: var(--yellow);
+    white-space: nowrap;
+  }
+
+  /* item card */
+  .item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #222;
+    border-radius: 14px;
+    padding: 14px 18px;
+    margin-bottom: 10px;
+    border-left: 4px solid var(--yellow);
+    transition: transform 0.15s, box-shadow 0.15s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .item::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(to right, var(--yellow), transparent);
+    opacity: 0.4;
+  }
+
+  .item:hover {
+    transform: translateX(4px);
+    box-shadow: -4px 0 16px rgba(245,168,0,0.25);
+  }
+
+  .item-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .item-emoji {
+    font-size: 26px;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));
+    flex-shrink: 0;
+  }
+
+  .item-name {
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--white);
+    line-height: 1.2;
+  }
+
+  .item-desc {
+    font-size: 11px;
+    color: #aaa;
+    font-weight: 600;
+    margin-top: 2px;
+  }
+
+  .item-price {
+    font-family: 'Bangers', cursive;
+    font-size: 22px;
+    color: var(--yellow);
+    letter-spacing: 1px;
+    white-space: nowrap;
+  }
+
+  /* highlight card (featured) */
+  .item.featured {
+    background: linear-gradient(135deg, #2a1f00, #1f1800);
+    border-left-color: var(--yellow-light);
+    border-top: 1px solid rgba(255,209,71,0.3);
+  }
+
+  .item.featured .item-price {
+    color: var(--yellow-light);
+  }
+
+  /* bebidas style */
+  .item.drink {
+    border-left-color: #4fc3f7;
+  }
+  .item.drink .item-price {
+    color: #4fc3f7;
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    background: var(--yellow);
+    text-align: center;
+    padding: 24px 20px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .footer::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 10px,
+      rgba(0,0,0,0.04) 10px,
+      rgba(0,0,0,0.04) 12px
+    );
+  }
+
+  .footer-txt {
+    position: relative;
+    font-family: 'Bangers', cursive;
+    font-size: 18px;
+    letter-spacing: 2px;
+    color: var(--black);
+  }
+
+  .footer-sub {
+    position: relative;
+    font-size: 12px;
+    font-weight: 700;
+    color: rgba(0,0,0,0.5);
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+
+  .whatsapp-wrap {
+    background: var(--dark);
+    padding: 8px 20px 40px;
+    text-align: center;
+  }
+
+  .whatsapp-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: #25D366;
+    color: white;
+    font-family: 'Nunito', sans-serif;
+    font-size: 17px;
+    font-weight: 900;
+    text-decoration: none;
+    padding: 16px 32px;
+    border-radius: 50px;
+    margin-top: 16px;
+    box-shadow: 0 6px 24px rgba(37,211,102,0.4);
+    transition: transform 0.15s, box-shadow 0.15s;
+    animation: pulse 2s infinite;
+  }
+
+  .whatsapp-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 32px rgba(37,211,102,0.55);
+  }
+
+  .whatsapp-btn svg {
+    width: 26px;
+    height: 26px;
+    flex-shrink: 0;
+  }
+
+  .whatsapp-hint {
+    font-size: 12px;
+    color: #555;
+    margin-top: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 6px 24px rgba(37,211,102,0.4); }
+    50% { box-shadow: 0 6px 36px rgba(37,211,102,0.7); }
+  }
+
+  /* sparkle stars */
+  .star {
+    display: inline-block;
+    animation: spin 4s linear infinite;
+    font-size: 18px;
+  }
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+
+  /* entrance animation */
+  .item {
+    animation: slideIn 0.4s ease both;
+  }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateX(-16px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+  .item:nth-child(1)  { animation-delay: 0.05s; }
+  .item:nth-child(2)  { animation-delay: 0.10s; }
+  .item:nth-child(3)  { animation-delay: 0.15s; }
+  .item:nth-child(4)  { animation-delay: 0.20s; }
+  .item:nth-child(5)  { animation-delay: 0.25s; }
+  .item:nth-child(6)  { animation-delay: 0.30s; }
+  .item:nth-child(7)  { animation-delay: 0.35s; }
+  .item:nth-child(8)  { animation-delay: 0.40s; }
+  .item:nth-child(9)  { animation-delay: 0.45s; }
+  .item:nth-child(10) { animation-delay: 0.50s; }
+  .item:nth-child(11) { animation-delay: 0.55s; }
+</style>
+</head>
+<body>
+
+<!-- ── HERO ── -->
+<div class="hero">
+  <div class="logo-circle">
+    <img src="data:image/png;base64,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" 
+         alt="Beagle's Dog" style="width:90px;height:90px;object-fit:cover;border-radius:50%;"/>
+  </div>
+  <div class="brand-name">Beagle's Dog</div>
+  <div class="brand-tagline">O melhor cachorro-quente da cidade</div>
+  <div class="badge">🍟 CARDÁPIO 🍟</div>
+</div>
+
+<!-- ── CONTACT BAR ── -->
+<div class="contact-bar">
+  <a class="contact-item" href="tel:51995192139">
+    <div class="icon icon-phone">📞</div>
+    <span>(51) 99519-2139</span>
+  </a>
+  <a class="contact-item" href="https://instagram.com/beaglesdog01" target="_blank">
+    <div class="icon icon-insta">📷</div>
+    <span>@beaglesdog01</span>
+  </a>
+</div>
+
+<!-- ── MENU ── -->
+<div class="menu-body">
+
+  <div class="cat-label"><span>🌭 CACHORROS-QUENTES</span></div>
+
+  <div class="item">
+    <div class="item-left">
+      <span class="item-emoji">🌭</span>
+      <div>
+        <div class="item-name">Dog Simples</div>
+        <div class="item-desc">Salsicha, molho e mostarda</div>
+      </div>
+    </div>
+    <div class="item-price">R$14</div>
+  </div>
+
+  <div class="item">
+    <div class="item-left">
+      <span class="item-emoji">🌭</span>
+      <div>
+        <div class="item-name">Dog Duplo</div>
+        <div class="item-desc">Duas salsichas, molho e mostarda</div>
+      </div>
+    </div>
+    <div class="item-price">R$16</div>
+  </div>
+
+  <div class="item featured">
+    <div class="item-left">
+      <span class="item-emoji">🍗</span>
+      <div>
+        <div class="item-name">Dog Frango</div>
+        <div class="item-desc">Frango desfiado temperado</div>
+      </div>
+    </div>
+    <div class="item-price">R$18</div>
+  </div>
+
+  <div class="item">
+    <div class="item-left">
+      <span class="item-emoji">🥩</span>
+      <div>
+        <div class="item-name">Dog Calabresa Simples</div>
+        <div class="item-desc">Calabresa na chapa</div>
+      </div>
+    </div>
+    <div class="item-price">R$15</div>
+  </div>
+
+  <div class="item featured">
+    <div class="item-left">
+      <span class="item-emoji">🥩</span>
+      <div>
+        <div class="item-name">Dog Calabresa Duplo</div>
+        <div class="item-desc">Calabresa dupla na chapa</div>
+      </div>
+    </div>
+    <div class="item-price">R$18</div>
+  </div>
+
+  <div class="item featured">
+    <div class="item-left">
+      <span class="item-emoji">⭐</span>
+      <div>
+        <div class="item-name">Dog Strogonoff de Carne</div>
+        <div class="item-desc">Strogonoff cremoso de carne</div>
+      </div>
+    </div>
+    <div class="item-price">R$21</div>
+  </div>
+
+  <div class="item">
+    <div class="item-left">
+      <span class="item-emoji">🌶️</span>
+      <div>
+        <div class="item-name">Dog Linguiça Simples</div>
+        <div class="item-desc">Linguiça toscana grelhada</div>
+      </div>
+    </div>
+    <div class="item-price">R$19</div>
+  </div>
+
+  <div class="item featured">
+    <div class="item-left">
+      <span class="item-emoji">🌶️</span>
+      <div>
+        <div class="item-name">Dog Linguiça Duplo</div>
+        <div class="item-desc">Linguiça dupla grelhada</div>
+      </div>
+    </div>
+    <div class="item-price">R$24</div>
+  </div>
+
+  <div class="item featured">
+    <div class="item-left">
+      <span class="item-emoji">🔥</span>
+      <div>
+        <div class="item-name">Dog Frango e Salsicha</div>
+        <div class="item-desc">Combinação especial</div>
+      </div>
+    </div>
+    <div class="item-price">R$20</div>
+  </div>
+
+  <div class="item featured">
+    <div class="item-left">
+      <span class="item-emoji">🔥</span>
+      <div>
+        <div class="item-name">Dog Frango e Calabresa</div>
+        <div class="item-desc">Combinação especial</div>
+      </div>
+    </div>
+    <div class="item-price">R$21</div>
+  </div>
+
+  <div class="item featured">
+    <div class="item-left">
+      <span class="item-emoji">🔥</span>
+      <div>
+        <div class="item-name">Dog Calabresa com Salsicha</div>
+        <div class="item-desc">Combinação especial</div>
+      </div>
+    </div>
+    <div class="item-price">R$17</div>
+  </div>
+
+  <div class="cat-label"><span>🥤 BEBIDAS</span></div>
+
+  <div class="item drink">
+    <div class="item-left">
+      <span class="item-emoji">🥤</span>
+      <div>
+        <div class="item-name">Refri Lata</div>
+        <div class="item-desc">350ml gelado</div>
+      </div>
+    </div>
+    <div class="item-price">R$7</div>
+  </div>
+
+  <div class="item drink">
+    <div class="item-left">
+      <span class="item-emoji">🥤</span>
+      <div>
+        <div class="item-name">Refri 600ml</div>
+        <div class="item-desc">600ml gelado</div>
+      </div>
+    </div>
+    <div class="item-price">R$9</div>
+  </div>
+
+  <div class="item drink">
+    <div class="item-left">
+      <span class="item-emoji">🍾</span>
+      <div>
+        <div class="item-name">Refri 1 Litro</div>
+        <div class="item-desc">1 litro gelado</div>
+      </div>
+    </div>
+    <div class="item-price">R$12</div>
+  </div>
+
+  <div class="item drink">
+    <div class="item-left">
+      <span class="item-emoji">🧃</span>
+      <div>
+        <div class="item-name">Suco Skinka</div>
+        <div class="item-desc">Suco natural</div>
+      </div>
+    </div>
+    <div class="item-price">R$8</div>
+  </div>
+
+  <div class="item drink">
+    <div class="item-left">
+      <span class="item-emoji">💧</span>
+      <div>
+        <div class="item-name">Água</div>
+        <div class="item-desc">Mineral sem gás</div>
+      </div>
+    </div>
+    <div class="item-price">R$5</div>
+  </div>
+
+  <div class="cat-label"><span>🍺 CERVEJAS</span></div>
+
+  <div class="item drink">
+    <div class="item-left">
+      <span class="item-emoji">🍺</span>
+      <div>
+        <div class="item-name">Ceva Latão</div>
+        <div class="item-desc">473ml gelada</div>
+      </div>
+    </div>
+    <div class="item-price">R$10</div>
+  </div>
+
+  <div class="item drink">
+    <div class="item-left">
+      <span class="item-emoji">🍻</span>
+      <div>
+        <div class="item-name">Long Neck</div>
+        <div class="item-desc">355ml gelada</div>
+      </div>
+    </div>
+    <div class="item-price">R$12</div>
+  </div>
+
+</div>
+
+<!-- ── WHATSAPP CTA ── -->
+<div class="whatsapp-wrap">
+  <a class="whatsapp-btn" href="https://wa.me/5551995192139?text=Olá!%20Gostaria%20de%20fazer%20um%20pedido%20🌭" target="_blank">
+    <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+    </svg>
+    Fazer Pedido pelo WhatsApp
+  </a>
+  <div class="whatsapp-hint">Atendimento rápido · Tele entrega disponível</div>
+</div>
+
+<!-- ── FOOTER ── -->
+<div class="footer">
+  <div class="footer-txt"><span class="star">✦</span> &nbsp;A FOME NÃO ESPERA. NÓS TAMPOCO.&nbsp; <span class="star">✦</span></div>
+  <div class="footer-sub">Seu dog favorito chegando até você 🛵🌭</div>
+</div>
+
+</body>
+</html>
